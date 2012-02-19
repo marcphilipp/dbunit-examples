@@ -1,9 +1,9 @@
-package de.marcphilipp.dbunit;
+package de.marcphilipp.dbunit.example;
 
-import static de.marcphilipp.dbunit.Schema.PersonTable.AGE;
-import static de.marcphilipp.dbunit.Schema.PersonTable.LAST_NAME;
-import static de.marcphilipp.dbunit.Schema.PersonTable.NAME;
-import static de.marcphilipp.dbunit.Schema.Tables.PERSON;
+import static de.marcphilipp.dbunit.example.Schema.PersonTable.AGE;
+import static de.marcphilipp.dbunit.example.Schema.PersonTable.LAST_NAME;
+import static de.marcphilipp.dbunit.example.Schema.PersonTable.NAME;
+import static de.marcphilipp.dbunit.example.Schema.Tables.PERSON;
 import static org.h2.engine.Constants.UTF8;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -22,6 +22,9 @@ import org.h2.tools.RunScript;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import de.marcphilipp.dbunit.example.Person;
+import de.marcphilipp.dbunit.example.PersonRepository;
 
 public class TypeSafeBuilderDatabaseTest {
 

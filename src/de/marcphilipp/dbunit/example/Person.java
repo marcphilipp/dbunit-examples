@@ -1,4 +1,4 @@
-package de.marcphilipp.dbunit;
+package de.marcphilipp.dbunit.example;
 public class Person {
 
 	private final String firstName;

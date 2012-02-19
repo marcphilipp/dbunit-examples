@@ -1,4 +1,4 @@
-package de.marcphilipp.dbunit;
+package de.marcphilipp.dbunit.example;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
