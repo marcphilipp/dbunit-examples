@@ -1,3 +1,4 @@
+package de.marcphilipp.dbunit;
 public class Person {
 
 	private final String firstName;

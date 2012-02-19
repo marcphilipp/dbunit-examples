@@ -1,7 +1,11 @@
+package de.marcphilipp.dbunit;
 import static org.h2.engine.Constants.UTF8;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
+
+import java.io.File;
+import java.net.MalformedURLException;
 
 import javax.sql.DataSource;
 
@@ -9,7 +13,8 @@ import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.builder.DataSetBuilder;
+import org.dbunit.dataset.xml.FlatXmlDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.h2.jdbcx.JdbcDataSource;
 import org.h2.tools.RunScript;
@@ -17,7 +22,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class BuilderDatabaseTest {
+public class XmlDatabaseTest {
 
 	private static final String JDBC_DRIVER = org.h2.Driver.class.getName();
 	private static final String JDBC_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
@@ -31,16 +36,12 @@ public class BuilderDatabaseTest {
 
 	@Before
 	public void importDataSet() throws Exception {
-		IDataSet dataSet = buildDataSet();
+		IDataSet dataSet = readDataSet();
 		cleanlyInsertDataset(dataSet);
 	}
 
-	private IDataSet buildDataSet() throws DataSetException {
-		DataSetBuilder builder = new DataSetBuilder();
-		builder.newRow("PERSON").with("NAME", "Bob").with("LAST_NAME", "Doe").with("AGE", 18).add();
-		builder.newRow("PERSON").with("NAME", "Alice").with("LAST_NAME", "Foo").with("AGE", 23).add();
-		builder.newRow("PERSON").with("NAME", "Charlie").with("LAST_NAME", "Brown").with("AGE", 42).add();
-		return builder.build();
+	private FlatXmlDataSet readDataSet() throws MalformedURLException, DataSetException {
+		return new FlatXmlDataSetBuilder().build(new File("dataset.xml"));
 	}
 
 	private void cleanlyInsertDataset(IDataSet dataSet) throws ClassNotFoundException, Exception {
