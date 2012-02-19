@@ -3,13 +3,16 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import java.io.FileInputStream;
+import java.io.File;
+import java.net.MalformedURLException;
 
 import javax.sql.DataSource;
 
 import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
+import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.h2.jdbcx.JdbcDataSource;
@@ -18,7 +21,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class SimpleDatabaseTest {
+public class XmlDatabaseTest {
 
 	private static final String JDBC_DRIVER = org.h2.Driver.class.getName();
 	private static final String JDBC_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
@@ -32,7 +35,15 @@ public class SimpleDatabaseTest {
 
 	@Before
 	public void importDataSet() throws Exception {
-		IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("dataset.xml"));
+		IDataSet dataSet = readDataSet();
+		cleanlyInsertDataset(dataSet);
+	}
+
+	private FlatXmlDataSet readDataSet() throws MalformedURLException, DataSetException {
+		return new FlatXmlDataSetBuilder().build(new File("dataset.xml"));
+	}
+
+	private void cleanlyInsertDataset(IDataSet dataSet) throws ClassNotFoundException, Exception {
 		IDatabaseTester databaseTester = new JdbcDatabaseTester(JDBC_DRIVER, JDBC_URL, USER, PASSWORD);
 		databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
 		databaseTester.setDataSet(dataSet);
@@ -42,7 +53,6 @@ public class SimpleDatabaseTest {
 	@Test
 	public void findsAndReadsExistingPersonByFirstName() throws Exception {
 		PersonRepository repository = new PersonRepository(dataSource());
-
 		Person charlie = repository.findPersonByFirstName("Charlie");
 
 		assertThat(charlie.getFirstName(), is("Charlie"));
@@ -53,7 +63,6 @@ public class SimpleDatabaseTest {
 	@Test
 	public void returnsNullWhenPersonCannotBeFoundByFirstName() throws Exception {
 		PersonRepository repository = new PersonRepository(dataSource());
-
 		Person person = repository.findPersonByFirstName("iDoNotExist");
 
 		assertThat(person, is(nullValue()));
