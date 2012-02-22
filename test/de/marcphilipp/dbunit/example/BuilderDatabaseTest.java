@@ -1,4 +1,5 @@
 package de.marcphilipp.dbunit.example;
+
 import static org.h2.engine.Constants.UTF8;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -17,9 +18,6 @@ import org.h2.tools.RunScript;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import de.marcphilipp.dbunit.example.Person;
-import de.marcphilipp.dbunit.example.PersonRepository;
 
 public class BuilderDatabaseTest {
 

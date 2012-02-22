@@ -22,9 +22,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.marcphilipp.dbunit.example.Person;
-import de.marcphilipp.dbunit.example.PersonRepository;
-
 public class XmlDatabaseTest {
 
 	private static final String JDBC_DRIVER = org.h2.Driver.class.getName();
