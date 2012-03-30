@@ -11,6 +11,7 @@ import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.builder.ColumnSpec;
 import org.dbunit.dataset.builder.DataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.h2.jdbcx.JdbcDataSource;
@@ -34,18 +35,19 @@ public class BuilderDatabaseTest {
 	@Before
 	public void importDataSet() throws Exception {
 		IDataSet dataSet = buildDataSet();
-		cleanlyInsertDataset(dataSet);
+		cleanlyInsert(dataSet);
 	}
 
 	private IDataSet buildDataSet() throws DataSetException {
 		DataSetBuilder builder = new DataSetBuilder();
-		builder.newRow("PERSON").with("NAME", "Bob").with("LAST_NAME", "Doe").with("AGE", 18).add();
-		builder.newRow("PERSON").with("NAME", "Alice").with("LAST_NAME", "Foo").with("AGE", 23).add();
-		builder.newRow("PERSON").with("NAME", "Charlie").with("LAST_NAME", "Brown").with("AGE", 42).add();
+		ColumnSpec<Integer> age = ColumnSpec.newColumn("AGE");
+		builder.newRow("PERSON").with("NAME", "Bob").with("LAST_NAME", "Doe").with(age, 18).add();
+		builder.newRow("PERSON").with("NAME", "Alice").with("LAST_NAME", "Foo").with(age, 23).add();
+		builder.newRow("PERSON").with("NAME", "Charlie").with("LAST_NAME", "Brown").with(age, 42).add();
 		return builder.build();
 	}
 
-	private void cleanlyInsertDataset(IDataSet dataSet) throws ClassNotFoundException, Exception {
+	private void cleanlyInsert(IDataSet dataSet) throws Exception {
 		IDatabaseTester databaseTester = new JdbcDatabaseTester(JDBC_DRIVER, JDBC_URL, USER, PASSWORD);
 		databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
 		databaseTester.setDataSet(dataSet);

@@ -36,7 +36,7 @@ public class TypeSafeBuilderDatabaseTest {
 	@Before
 	public void importDataSet() throws Exception {
 		IDataSet dataSet = buildDataSet();
-		cleanlyInsertDataset(dataSet);
+		cleanlyInsert(dataSet);
 	}
 
 	private IDataSet buildDataSet() throws DataSetException {
@@ -47,7 +47,7 @@ public class TypeSafeBuilderDatabaseTest {
 		return builder.build();
 	}
 
-	private void cleanlyInsertDataset(IDataSet dataSet) throws ClassNotFoundException, Exception {
+	private void cleanlyInsert(IDataSet dataSet) throws Exception {
 		IDatabaseTester databaseTester = new H2DatabaseTester(dataSource());
 		databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
 		databaseTester.setDataSet(dataSet);

@@ -1,19 +1,17 @@
 package de.marcphilipp.dbunit.example;
+
 import static org.h2.engine.Constants.UTF8;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
-import java.net.MalformedURLException;
 
 import javax.sql.DataSource;
 
 import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
-import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.h2.jdbcx.JdbcDataSource;
@@ -37,14 +35,14 @@ public class XmlDatabaseTest {
 	@Before
 	public void importDataSet() throws Exception {
 		IDataSet dataSet = readDataSet();
-		cleanlyInsertDataset(dataSet);
+		cleanlyInsert(dataSet);
 	}
 
-	private FlatXmlDataSet readDataSet() throws MalformedURLException, DataSetException {
+	private IDataSet readDataSet() throws Exception {
 		return new FlatXmlDataSetBuilder().build(new File("dataset.xml"));
 	}
 
-	private void cleanlyInsertDataset(IDataSet dataSet) throws ClassNotFoundException, Exception {
+	private void cleanlyInsert(IDataSet dataSet) throws Exception {
 		IDatabaseTester databaseTester = new JdbcDatabaseTester(JDBC_DRIVER, JDBC_URL, USER, PASSWORD);
 		databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
 		databaseTester.setDataSet(dataSet);
