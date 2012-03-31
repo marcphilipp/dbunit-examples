@@ -12,17 +12,14 @@ import javax.sql.DataSource;
 import org.h2.tools.RunScript;
 import org.junit.rules.ExternalResource;
 
-public class CreateSchema extends ExternalResource implements Using {
+public class CreateSchemaIfNecessary extends ExternalResource {
 
-	private String sqlFilePath;
 	private final DataSource dataSource;
+	private final String sqlFilePath;
 
-	public static Using in(DataSource dataSource) {
-		return new CreateSchema(dataSource);
-	}
-
-	private CreateSchema(DataSource dataSource) {
+	public CreateSchemaIfNecessary(DataSource dataSource, String sqlFilePath) {
 		this.dataSource = dataSource;
+		this.sqlFilePath = sqlFilePath;
 	}
 
 	@Override
@@ -30,19 +27,19 @@ public class CreateSchema extends ExternalResource implements Using {
 		FileReader reader = null;
 		Connection connection = null;
 		try {
-			reader = new FileReader(new File(sqlFilePath));
 			connection = dataSource.getConnection();
-			RunScript.execute(connection, reader);
+			if (isInMemoryH2(connection)) {
+				reader = new FileReader(new File(sqlFilePath));
+				RunScript.execute(connection, reader);
+			}
 		} finally {
 			closeQuietly(connection);
 			closeQuietly(reader);
 		}
 	}
 
-	@Override
-	public CreateSchema using(String sqlFilePath) {
-		this.sqlFilePath = sqlFilePath;
-		return this;
+	private boolean isInMemoryH2(Connection connection) throws SQLException {
+		return connection.getMetaData().getURL().startsWith("jdbc:h2:mem:");
 	}
 
 	private void closeQuietly(Closeable closeable) {
@@ -62,10 +59,4 @@ public class CreateSchema extends ExternalResource implements Using {
 			}
 		}
 	}
-}
-
-interface Using {
-
-	CreateSchema using(String sqlFilePath);
-
 }

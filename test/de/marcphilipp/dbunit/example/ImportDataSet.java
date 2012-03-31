@@ -19,7 +19,7 @@ public class ImportDataSet extends ExternalResource {
 	private final Object testInstance;
 	private final DataSource dataSource;
 
-	public ImportDataSet(Object testInstance, DataSource dataSource) {
+	public ImportDataSet(DataSource dataSource, Object testInstance) {
 		this.testInstance = testInstance;
 		this.dataSource = dataSource;
 	}
@@ -31,7 +31,6 @@ public class ImportDataSet extends ExternalResource {
 	@Override
 	protected void before() throws Throwable {
 		for (Method method : testInstance.getClass().getMethods()) {
-			method.getAnnotations();
 			if (method.isAnnotationPresent(DataSet.class)) {
 				assertEquals("@DataSet method must not have parameters", 0, method.getParameterTypes().length);
 				assertTrue("return type of @DataSet method must be assignable from IDataSet", method.getReturnType()

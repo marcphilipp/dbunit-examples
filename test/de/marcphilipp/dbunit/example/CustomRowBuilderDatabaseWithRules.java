@@ -1,9 +1,6 @@
 package de.marcphilipp.dbunit.example;
 
-import static de.marcphilipp.dbunit.example.Schema.PersonTable.AGE;
-import static de.marcphilipp.dbunit.example.Schema.PersonTable.LAST_NAME;
-import static de.marcphilipp.dbunit.example.Schema.PersonTable.NAME;
-import static de.marcphilipp.dbunit.example.Schema.Tables.PERSON;
+import static de.marcphilipp.dbunit.example.PersonRowBuilder.newPerson;
 import static de.marcphilipp.dbunit.example.TestDataSource.dataSource;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -17,21 +14,30 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 
-public class TypeSafeBuilderDatabaseTestWithRules {
+public class CustomRowBuilderDatabaseWithRules {
 
 	@ClassRule
-	public static TestRule schema = CreateSchema.in(dataSource()).using("schema.sql");
+	public static TestRule schema = new CreateSchemaIfNecessary(dataSource(), "schema.sql");
 
 	@Rule
-	public ImportDataSet database = new ImportDataSet(this, dataSource());
+	public TestRule importDataSet = new ImportDataSet(dataSource(), this);
+
+	@Rule
+	public TestRule onlyRunOracleTestsOnOracle = new OnlyRunOracleTestsOnOracle(dataSource());
 
 	@DataSet
 	public IDataSet dataSet() throws DataSetException {
 		DataSetBuilder builder = new DataSetBuilder();
-		builder.newRow(PERSON).with(NAME, "Bob").with(LAST_NAME, "Doe").with(AGE, 18).add();
-		builder.newRow(PERSON).with(NAME, "Alice").with(LAST_NAME, "Foo").with(AGE, 23).add();
-		builder.newRow(PERSON).with(NAME, "Charlie").with(LAST_NAME, "Brown").with(AGE, 42).add();
+		newPerson(builder).withFirstName("Bob").withLastName("Doe").withAge(18).add();
+		newPerson(builder).withFirstName("Alice").withLastName("Foo").withAge(23).add();
+		newPerson(builder).withFirstName("Charlie").withLastName("Brown").withAge(42).add();
 		return builder.build();
+	}
+
+	@Test
+	@OracleOnly
+	public void oracleSpecificStuff() throws Exception {
+		System.err.println("Hello from Delphi!");
 	}
 
 	@Test
