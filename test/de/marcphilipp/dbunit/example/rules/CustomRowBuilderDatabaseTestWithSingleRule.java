@@ -33,7 +33,7 @@ public class CustomRowBuilderDatabaseTestWithSingleRule {
 	@Test
 	@OracleOnly
 	public void oracleSpecificStuff() throws Exception {
-		System.err.println("Hello from Delphi!");
+		System.out.println("Hello from Delphi!");
 	}
 
 	@Test
