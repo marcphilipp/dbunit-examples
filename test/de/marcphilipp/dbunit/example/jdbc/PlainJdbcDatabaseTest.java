@@ -1,4 +1,4 @@
-package de.marcphilipp.dbunit.example;
+package de.marcphilipp.dbunit.example.jdbc;
 
 import static org.h2.engine.Constants.UTF8;
 import static org.hamcrest.CoreMatchers.is;
@@ -19,6 +19,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import de.marcphilipp.dbunit.example.Person;
+import de.marcphilipp.dbunit.example.PersonRepository;
 
 public class PlainJdbcDatabaseTest {
 

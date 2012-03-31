@@ -1,7 +1,8 @@
-package de.marcphilipp.dbunit.example;
+package de.marcphilipp.dbunit.example.rules;
 
-import static de.marcphilipp.dbunit.example.PersonRowBuilder.newPerson;
-import static de.marcphilipp.dbunit.example.TestDataSource.dataSource;
+import static de.marcphilipp.dbunit.example.rules.TestDataSource.dataSource;
+import static de.marcphilipp.dbunit.example.rules.TestDataSource.prepareDatabase;
+import static de.marcphilipp.dbunit.example.wrapped.PersonRowBuilder.newPerson;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -9,21 +10,17 @@ import static org.junit.Assert.assertThat;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.builder.DataSetBuilder;
-import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 
-public class CustomRowBuilderDatabaseWithRules {
+import de.marcphilipp.dbunit.example.Person;
+import de.marcphilipp.dbunit.example.PersonRepository;
 
-	@ClassRule
-	public static TestRule schema = new CreateSchemaIfNecessary(dataSource(), "schema.sql");
-
-	@Rule
-	public TestRule importDataSet = new ImportDataSet(dataSource(), this);
+public class CustomRowBuilderDatabaseTestWithSingleRule {
 
 	@Rule
-	public TestRule onlyRunOracleTestsOnOracle = new OnlyRunOracleTestsOnOracle(dataSource());
+	public TestRule database = prepareDatabase(dataSource(), this);
 
 	@DataSet
 	public IDataSet dataSet() throws DataSetException {

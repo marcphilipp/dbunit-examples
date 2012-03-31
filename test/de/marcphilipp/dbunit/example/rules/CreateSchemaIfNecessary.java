@@ -1,4 +1,4 @@
-package de.marcphilipp.dbunit.example;
+package de.marcphilipp.dbunit.example.rules;
 
 import java.io.Closeable;
 import java.io.File;

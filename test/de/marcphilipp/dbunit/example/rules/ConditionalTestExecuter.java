@@ -1,4 +1,4 @@
-package de.marcphilipp.dbunit.example;
+package de.marcphilipp.dbunit.example.rules;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;

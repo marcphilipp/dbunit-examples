@@ -1,6 +1,6 @@
-package de.marcphilipp.dbunit.example;
+package de.marcphilipp.dbunit.example.wrapped;
 
-import static de.marcphilipp.dbunit.example.PersonRowBuilder.newPerson;
+import static de.marcphilipp.dbunit.example.wrapped.PersonRowBuilder.newPerson;
 import static org.h2.engine.Constants.UTF8;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -18,6 +18,10 @@ import org.h2.tools.RunScript;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import de.marcphilipp.dbunit.example.Person;
+import de.marcphilipp.dbunit.example.PersonRepository;
+import de.marcphilipp.dbunit.example.h2.H2DatabaseTester;
 
 public class CustomRowBuilderDatabaseTest {
 

@@ -1,4 +1,4 @@
-package de.marcphilipp.dbunit.example;
+package de.marcphilipp.dbunit.example.rules;
 
 import static org.dbunit.operation.DatabaseOperation.CLEAN_INSERT;
 import static org.junit.Assert.assertEquals;
@@ -13,6 +13,8 @@ import org.dbunit.dataset.DefaultDataSet;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.rules.ExternalResource;
+
+import de.marcphilipp.dbunit.example.h2.H2DatabaseTester;
 
 public class ImportDataSet extends ExternalResource {
 

@@ -1,4 +1,4 @@
-package de.marcphilipp.dbunit.example;
+package de.marcphilipp.dbunit.example.rules;
 
 import static org.junit.rules.RuleChain.outerRule;
 
@@ -6,6 +6,7 @@ import javax.sql.DataSource;
 
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.rules.TestRule;
+
 
 public class TestDataSource {
 

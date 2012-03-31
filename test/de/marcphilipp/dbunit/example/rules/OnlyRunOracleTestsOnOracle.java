@@ -1,4 +1,4 @@
-package de.marcphilipp.dbunit.example;
+package de.marcphilipp.dbunit.example.rules;
 
 import static org.junit.matchers.JUnitMatchers.containsString;
 
@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 
 import org.hamcrest.Matcher;
 import org.junit.runner.Description;
+
 
 public class OnlyRunOracleTestsOnOracle extends ConditionalTestExecuter {
 
