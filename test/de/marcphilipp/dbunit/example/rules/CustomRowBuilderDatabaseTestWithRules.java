@@ -1,6 +1,6 @@
 package de.marcphilipp.dbunit.example.rules;
 
-import static de.marcphilipp.dbunit.example.rules.TestDataSource.dataSource;
+import static de.marcphilipp.dbunit.example.h2.TestDataSource.dataSource;
 import static de.marcphilipp.dbunit.example.wrapped.PersonRowBuilder.newPerson;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;

@@ -1,12 +1,8 @@
-package de.marcphilipp.dbunit.example.rules;
-
-import static org.junit.rules.RuleChain.outerRule;
+package de.marcphilipp.dbunit.example.h2;
 
 import javax.sql.DataSource;
 
 import org.h2.jdbcx.JdbcDataSource;
-import org.junit.rules.TestRule;
-
 
 public class TestDataSource {
 
@@ -20,11 +16,5 @@ public class TestDataSource {
 		dataSource.setUser(System.getProperty("test.jdbc.user", DEFAULT_USER));
 		dataSource.setPassword(System.getProperty("test.jdbc.password", DEFAULT_PASSWORD));
 		return dataSource;
-	}
-
-	public static TestRule prepareDatabase(DataSource dataSource, Object testInstance) {
-		return outerRule(new OnlyRunOracleTestsOnOracle(dataSource)).around(
-				new CreateSchemaIfNecessary(dataSource, "schema.sql")).around(
-				new ImportDataSet(dataSource, testInstance));
 	}
 }

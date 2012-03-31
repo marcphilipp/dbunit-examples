@@ -1,7 +1,6 @@
 package de.marcphilipp.dbunit.example.rules;
 
-import static de.marcphilipp.dbunit.example.rules.TestDataSource.dataSource;
-import static de.marcphilipp.dbunit.example.rules.TestDataSource.prepareDatabase;
+import static de.marcphilipp.dbunit.example.h2.TestDataSource.dataSource;
 import static de.marcphilipp.dbunit.example.wrapped.PersonRowBuilder.newPerson;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -20,7 +19,7 @@ import de.marcphilipp.dbunit.example.PersonRepository;
 public class CustomRowBuilderDatabaseTestWithSingleRule {
 
 	@Rule
-	public TestRule database = prepareDatabase(dataSource(), this);
+	public TestRule database = new PrepareDatabase(dataSource(), this);
 
 	@DataSet
 	public IDataSet dataSet() throws DataSetException {
