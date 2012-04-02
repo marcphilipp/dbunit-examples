@@ -11,7 +11,6 @@ import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.builder.ColumnSpec;
 import org.dbunit.dataset.builder.DataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.h2.jdbcx.JdbcDataSource;
@@ -32,7 +31,9 @@ public class BuilderDatabaseTest {
 
 	@BeforeClass
 	public static void createSchema() throws Exception {
-		RunScript.execute(JDBC_URL, USER, PASSWORD, "schema.sql", UTF8, false);
+		if (JDBC_URL.startsWith("jdbc:h2:mem:")) {
+			RunScript.execute(JDBC_URL, USER, PASSWORD, "schema.sql", UTF8, false);
+		}
 	}
 
 	@Before
@@ -43,10 +44,9 @@ public class BuilderDatabaseTest {
 
 	private IDataSet buildDataSet() throws DataSetException {
 		DataSetBuilder builder = new DataSetBuilder();
-		ColumnSpec<Integer> age = ColumnSpec.newColumn("AGE");
-		builder.newRow("PERSON").with("NAME", "Bob").with("LAST_NAME", "Doe").with(age, 18).add();
-		builder.newRow("PERSON").with("NAME", "Alice").with("LAST_NAME", "Foo").with(age, 23).add();
-		builder.newRow("PERSON").with("NAME", "Charlie").with("LAST_NAME", "Brown").with(age, 42).add();
+		builder.newRow("PERSON").with("NAME", "Bob").with("LAST_NAME", "Doe").with("AGE", 18).add();
+		builder.newRow("PERSON").with("NAME", "Alice").with("LAST_NAME", "Foo").with("AGE", 23).add();
+		builder.newRow("PERSON").with("NAME", "Charlie").with("LAST_NAME", "Brown").with("AGE", 42).add();
 		return builder.build();
 	}
 
