@@ -45,7 +45,7 @@ public class PlainJdbcDatabaseTest {
 		insert(new Person("Charlie", "Brown", 42));
 	}
 
-	protected void cleanPersonTable() throws SQLException {
+	private void cleanPersonTable() throws SQLException {
 		Statement statement = null;
 		try {
 			statement = connection.createStatement();
@@ -60,7 +60,7 @@ public class PlainJdbcDatabaseTest {
 		}
 	}
 
-	protected void insert(Person person) throws SQLException {
+	private void insert(Person person) throws SQLException {
 		PreparedStatement statement = null;
 		try {
 			statement = connection.prepareStatement("INSERT INTO PERSON (NAME, LAST_NAME, AGE) VALUES (?, ?, ?)");
