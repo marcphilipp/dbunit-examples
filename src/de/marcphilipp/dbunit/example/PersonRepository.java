@@ -36,8 +36,7 @@ public class PersonRepository {
 		String firstName = resultSet.getString("NAME");
 		String lastName = resultSet.getString("LAST_NAME");
 		int age = resultSet.getInt("AGE");
-		Person person2 = new Person(firstName, lastName, age);
-		return person2;
+		return new Person(firstName, lastName, age);
 	}
 
 	private void closeQuietly(ResultSet resultSet) {
