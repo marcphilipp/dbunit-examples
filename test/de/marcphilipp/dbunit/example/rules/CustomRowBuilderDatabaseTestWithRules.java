@@ -41,6 +41,7 @@ public class CustomRowBuilderDatabaseTestWithRules {
 	@OracleOnly
 	public void oracleSpecificStuff() throws Exception {
 		System.err.println("Hello from Delphi!");
+		// call a stored procedure etc.
 	}
 
 	@Test
