@@ -8,7 +8,7 @@ public abstract class ConditionalTestExecuter implements TestRule {
 
 	private static final class EmptyStatement extends Statement {
 		@Override
-		public void evaluate() throws Throwable {
+		public void evaluate() {
 			// do nothing
 		}
 	}
